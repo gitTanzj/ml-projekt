@@ -1,6 +1,7 @@
 import './App.css'
 import { LoginForm } from './components/LoginForm'
 import { RegisterForm } from './components/RegisterForm'  
+import { Home } from './components/Home'
 
 import { AuthProvider } from "./context/authContext";
 import { useRoutes } from "react-router-dom";
@@ -21,13 +22,13 @@ function App() {
     },
     {
       path: "/home",
-      element: <div>Home</div>
+      element: <Home/>
     }
   ]
   let routesElement = useRoutes(routes);
   return (
     <AuthProvider>
-      <div className="w-full h-screen flex flex-col">{routesElement}</div>
+      <div className="w-full h-screen flex flex-col justify-center">{routesElement}</div>
     </AuthProvider>
   )
 }
