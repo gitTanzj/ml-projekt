@@ -7,7 +7,6 @@ import logo from '../assets/icons/android-chrome-192x192.png'
 export const RegisterForm = () => {
     const navigate = useNavigate()	
 
-    const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -79,7 +78,7 @@ export const RegisterForm = () => {
               {!passwordMatch && (<span className='text-red-400 font-bold'>Passwords do not match</span>)}
     
               <div>
-                <button disabled={isRegistering} type="submit" className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Create account</button>
+                <button disabled={isRegistering || !passwordMatch} type="submit" className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Create account</button>
               </div>
             </form>
             <p className="text-center text-sm py-4 text-black">Already have an account? <Link to={'/login'} className="hover:underline font-bold">Log in</Link></p>
