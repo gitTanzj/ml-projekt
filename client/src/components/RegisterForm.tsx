@@ -7,6 +7,7 @@ import logo from '../assets/icons/android-chrome-192x192.png'
 export const RegisterForm = () => {
     const navigate = useNavigate()	
 
+    const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -43,6 +44,7 @@ export const RegisterForm = () => {
     
           <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
             <form className="space-y-6 " onSubmit={handleSubmit} >
+
               <div>
                 <label className="block text-sm font-medium leading-6 text-black">Email address</label>
                 <div className="mt-2">

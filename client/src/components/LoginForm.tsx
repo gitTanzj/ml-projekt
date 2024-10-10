@@ -4,6 +4,11 @@ import { doSignInWithEmailAndPassword, doSignInWithGoogle } from '../firebase/au
 import { useAuth } from '../context/authContext'
 
 import logo from '../assets/icons/android-chrome-192x192.png'
+import { FirebaseError } from 'firebase/app'
+
+let firebaseErrors = new Map<string, string>();
+firebaseErrors.set('auth/user-not-found', 'User not found')
+firebaseErrors.set('auth/invalid-credential', 'Invalid credentials')
 
 export const LoginForm = () => {
   const { userLoggedIn } = useAuth()
@@ -18,6 +23,13 @@ export const LoginForm = () => {
     if(!isSigningIn) {
       setIsSigningIn(true)
       await doSignInWithEmailAndPassword(email, password)
+      .then(() => {
+        setIsSigningIn(false)
+      })
+      .catch((error: FirebaseError) => {
+        setIsSigningIn(false)
+        setErrorMessage(firebaseErrors.get(error.code) || 'An error occurred')
+      })
     }
   }
 
@@ -25,7 +37,8 @@ export const LoginForm = () => {
     e.preventDefault()
     if (!isSigningIn) {
         setIsSigningIn(true)
-        doSignInWithGoogle().catch(err => {
+        doSignInWithGoogle()
+        .catch((err: FirebaseError) => {
             setIsSigningIn(false)
         })
     }
@@ -55,7 +68,7 @@ export const LoginForm = () => {
                 <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">Forgot password?</a>
               </div>
             </div>
-            <div className="mt-2">
+            <div className="mt-2 py-1">
               <input value={password} onChange={(e) => setPassword(e.target.value)} id="password" name="password" type="password" required className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 bg-white"/>
             </div>
           </div>
