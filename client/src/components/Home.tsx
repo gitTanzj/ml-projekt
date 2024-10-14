@@ -1,6 +1,6 @@
 
 import { Header } from './Header'
-import { DrawingTrain } from './DrawingTrain'
+import { Draw } from './Draw'
 
 import { useAuth } from '../context/authContext'
 
@@ -11,8 +11,8 @@ export const Home = () => {
   return (
     <div className="flex min-h-full justify-center items-center">
       <Header/>
-      <div className="flex justify">
-        <DrawingTrain/>
+      <div className="flex justify w-100">
+        <Draw/>
       </div>
     </div>
   )
