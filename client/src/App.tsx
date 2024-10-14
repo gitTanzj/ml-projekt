@@ -28,7 +28,7 @@ function App() {
   let routesElement = useRoutes(routes);
   return (
     <AuthProvider>
-      <div className="w-full h-screen flex flex-col justify-center">{routesElement}</div>
+      <div className="w-full h-screen flex flex-col justify-center items-center">{routesElement}</div>
     </AuthProvider>
   )
 }

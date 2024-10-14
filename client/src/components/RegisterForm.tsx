@@ -34,7 +34,7 @@ export const RegisterForm = () => {
     }
 
     return (
-        <div className="flex min-h-50% flex-col justify-center px-6 py-12 lg:px-8 border rounded-lg shadow-xl bg-gray-200">
+        <div className="flex min-h-50% w-1/6 flex-col justify-center px-6 py-12 lg:px-8 border rounded-lg shadow-xl bg-gray-200">
           {userLoggedIn && (<Navigate to={'/home'} replace={true} />)}
           <img src={logo} className="mx-auto h-10 w-auto rounded-lg"/>
           <div className="sm:mx-auto sm:w-full sm:max-w-sm s">

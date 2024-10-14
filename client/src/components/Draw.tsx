@@ -1,13 +1,35 @@
 import { useEffect, useState } from 'react';
+import { useImages } from '../context/imagesContext';
 
 export const Draw = () => {
     const [isDrawing, setIsDrawing] = useState<boolean>(false);
+    const { dispatch } = useImages();
 
     useEffect(() => {
         const canvas: HTMLCanvasElement | null = document.getElementById("canvas") as HTMLCanvasElement;
         const clear = document.getElementById("clear") as HTMLButtonElement;
         const save = document.getElementById("save") as HTMLButtonElement;
         const ctx = canvas.getContext('2d');
+
+        const isCanvasClear = () => {
+          if (ctx) {
+            const pixelBuffer = new Uint32Array(
+              ctx.getImageData(0, 0, canvas.width, canvas.height).data.buffer
+            );
+            return !pixelBuffer.some(color => color !== 0);
+          }
+          return true;
+        };
+
+        const fillCanvasWithWhite = (ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) => {
+          ctx.fillStyle = 'white';
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+        };
+    
+        // Fill the canvas with white when initialized
+        if (ctx && isCanvasClear()) {
+          fillCanvasWithWhite(ctx, canvas);
+        }
     
         const handleMouseDown = (e: MouseEvent) => {
           setIsDrawing(true);
@@ -35,15 +57,22 @@ export const Draw = () => {
         };
 
         const handleClear = () => {
-            if (ctx) {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-            }
+          if (ctx) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            fillCanvasWithWhite(ctx, canvas); // Fill with white after clearing
+          }
         };
 
         const handleSave = () => {
-          let data = canvas.toDataURL('image/png');
-          // POST REQUEST TO SERVER
+          if(isCanvasClear()){
+            alert("Canvas is empty")
+          } else {
+            dispatch({type: 'ADD_IMAGE', payload: canvas.toDataURL()})
+            handleClear()
+          }
         }
+
+
     
         canvas.addEventListener('mousedown', handleMouseDown);
         canvas.addEventListener('mousemove', handleMouseMove);
@@ -58,12 +87,12 @@ export const Draw = () => {
           clear.removeEventListener('click', handleClear)
           save.removeEventListener('click', handleSave)
         };
-      }, [isDrawing]);
+      }, [isDrawing, dispatch]);
 
     return (
         <div className="flex flex-col gap-3">
             <div className="bg-white rounded-md">
-                <canvas id="canvas"/>
+                <canvas width="300" height="300" id="canvas" className="rounded-md"/>
             </div>
             <button id="clear" className="text-white hover:bg-gray-600 p-2 rounded-md border-2 border-white">Clear</button>
             <button type="submit" id="save" className="bg-sky-400 hover:bg-sky-500 text-white p-2 rounded-md">Save</button>
