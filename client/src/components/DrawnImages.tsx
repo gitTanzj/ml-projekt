@@ -1,11 +1,48 @@
 import React from 'react'
 import { useImages } from '../context/imagesContext'
+import { useLabel } from '../context/labelContext'
+import axios from 'axios';
 
 export const DrawnImages = () => {
     const { images, dispatch } = useImages();
+    const { label } = useLabel();
 
     const handleDelete = (image: string) => {
         dispatch({ type: 'REMOVE_IMAGE', payload: image })
+    }
+
+    const dataURLToBlob = (dataURL: string) => {
+        const byteString = atob(dataURL.split(',')[1]);
+        const mimeString = dataURL.split(',')[0].split(':')[1].split(';')[0];
+        const ab = new ArrayBuffer(byteString.length);
+        const ia = new Uint8Array(ab);
+        for (let i = 0; i < byteString.length; i++) {
+            ia[i] = byteString.charCodeAt(i);
+        }
+        return new Blob([ab], { type: mimeString });
+    };
+
+    const handleSubmit = () => {
+        const formData = new FormData();
+        images.forEach((dataURL, index) => {
+            const blob = dataURLToBlob(dataURL);
+            formData.append('images', blob, `image${index}.png`);
+        });
+        formData.append('label', label)
+        axios.post('http://localhost:4000/train', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+        .then((res) => {
+            if(res.status === 201){
+                alert('Model trained successfully')
+                dispatch({ type: 'CLEAR_IMAGES', payload: '' })
+            }
+        })
+        .catch((err) => {
+            console.log(err)
+        })
     }
 
     return (
@@ -25,10 +62,11 @@ export const DrawnImages = () => {
             </div>
             <div className="flex justify-center w-full">
                 <button
-                disabled={images.length < 5}
-                className="bg-sky-400 disabled:bg-gray-700 hover:bg-sky-500 text-white p-2 rounded-md w-1/2"
+                    disabled={images.length < 5}
+                    className="bg-sky-400 disabled:bg-gray-700 hover:bg-sky-500 text-white p-2 rounded-md w-1/2"
+                    onClick={handleSubmit}
                 >
-                {images.length < 5 ? 'At least 5 images needed' : 'Train model'}
+                    {images.length < 5 ? 'At least 5 images needed' : 'Train model'}
                 </button>
             </div>
         </div>

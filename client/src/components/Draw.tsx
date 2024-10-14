@@ -13,10 +13,12 @@ export const Draw = () => {
 
         const isCanvasClear = () => {
           if (ctx) {
-            const pixelBuffer = new Uint32Array(
-              ctx.getImageData(0, 0, canvas.width, canvas.height).data.buffer
-            );
-            return !pixelBuffer.some(color => color !== 0);
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const pixelBuffer = new Uint32Array(imageData.data.buffer);
+        
+            // Check if all pixels are white
+            const whitePixel = 0xFFFFFFFF;
+            return pixelBuffer.every(color => color === whitePixel);
           }
           return true;
         };
