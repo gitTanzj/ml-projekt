@@ -4,10 +4,13 @@ import { RegisterForm } from './components/RegisterForm'
 import { Home } from './components/Home'
 
 import { AuthProvider } from "./context/authContext";
-import { useRoutes } from "react-router-dom";
+import { useRoutes, RouteObject } from "react-router-dom";
+
+import { TrainModel } from './components/TrainModel'
+import { ImageGame } from './components/ImageGame'
 
 function App() {
-  const routes = [
+  const routes: RouteObject[] = [
     {
       path: "*",
       element: <LoginForm />
@@ -22,7 +25,18 @@ function App() {
     },
     {
       path: "/home",
-      element: <Home/>
+      element: <Home/>,
+      children: [
+        {
+          path: "/home/train-model",
+          element: <TrainModel/>
+        },
+        {
+          index: true,
+          path: "/home/play",
+          element: <ImageGame/>
+        }
+      ]
     }
   ]
   let routesElement = useRoutes(routes);

@@ -1,9 +1,22 @@
 import { useEffect, useState } from 'react';
 import { useImages } from '../context/imagesContext';
 
-export const Draw = () => {
+interface DrawProps {
+  onSave: (canvas: HTMLCanvasElement | null) => void;
+}
+
+export const Draw: React.FC<DrawProps> = ({ onSave }) => {
     const [isDrawing, setIsDrawing] = useState<boolean>(false);
     const { dispatch } = useImages();
+
+    useEffect(() => {
+      const canvas: HTMLCanvasElement | null = document.getElementById("canvas") as HTMLCanvasElement;
+      const ctx = canvas.getContext('2d');
+      if(ctx){
+        ctx.fillStyle = 'white';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      }
+    }, [])
 
     useEffect(() => {
         const canvas: HTMLCanvasElement | null = document.getElementById("canvas") as HTMLCanvasElement;
@@ -69,7 +82,7 @@ export const Draw = () => {
           if(isCanvasClear()){
             alert("Canvas is empty")
           } else {
-            dispatch({type: 'ADD_IMAGE', payload: canvas.toDataURL()})
+            onSave(canvas)
             handleClear()
           }
         }

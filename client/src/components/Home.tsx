@@ -7,6 +7,7 @@ import { InsertLabel } from './InsertLabel'
 import { useAuth } from '../context/authContext'
 import { ImagesProvider } from '../context/imagesContext'
 import { LabelProvider } from '../context/labelContext'
+import { Outlet } from 'react-router-dom';
 
 
 export const Home = () => {
@@ -17,11 +18,7 @@ export const Home = () => {
       <LabelProvider>
         <div className="flex flex-col min-h-full w-full justify-center items-center">
           <Header/>
-          <InsertLabel/>
-          <div className="flex justify-center w-full gap-20">
-            <DrawnImages/>
-            <Draw/>
-          </div>
+          <Outlet/>
         </div>
       </LabelProvider>
     </ImagesProvider>

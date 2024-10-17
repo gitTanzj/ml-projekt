@@ -1,4 +1,4 @@
-import * as tf from '@tensorflow/tfjs';
+// import * as tf from '@tensorflow/tfjs';
 import fs from 'fs';
 import { Request, Response } from 'express';
 
@@ -18,8 +18,8 @@ import { Request, Response } from 'express';
 
 
 
-const model = tf.sequential();
-model.add(tf.layers.dense({inputShape: [300], units: 1}))
+// const model = tf.sequential();
+// model.add(tf.layers.dense({inputShape: [300], units: 1}))
 
 const trainModel = async (req: Request, res: Response) => {
     const images = req.files as Express.Multer.File[];
