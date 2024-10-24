@@ -4,6 +4,7 @@ import { Server, Socket } from 'socket.io';
 import session from 'express-session';
 import cors from 'cors';
 import bodyParser from 'body-parser';
+import path from 'path';
 
 const app = express();
 const httpServer = createServer(app);
@@ -28,22 +29,12 @@ const sessionMiddleware = session({
     saveUninitialized: true
 });
 
-app.use(cors({
-    origin: 'http://localhost:5173',
-    credentials: true,
-    methods: ['GET', 'POST'],
-    allowedHeaders: ['Content-Type', 'Authorization']
-}));
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use((req, res, next) => {
-    console.log(req.method, req.url);
-    next();
-})
-
 app.use(sessionMiddleware)
+
+app.use(express.static(path.join(__dirname, './dist')))
 
 app.get('/', (req: Request, res: Response) => {
     res.send('This is the mope website API!')
