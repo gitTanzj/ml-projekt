@@ -1,17 +1,14 @@
 
 import { Header } from './Header'
-import { Draw } from './Draw'
-import { DrawnImages } from './DrawnImages'
-import { InsertLabel } from './InsertLabel'
 
-import { useAuth } from '../context/authContext'
+// import { useAuth } from '../context/authContext'
 import { ImagesProvider } from '../context/imagesContext'
 import { LabelProvider } from '../context/labelContext'
 import { Outlet } from 'react-router-dom';
 
 
 export const Home = () => {
-  const { currentUser } = useAuth()
+  // const { currentUser } = useAuth()
 
   return (
     <ImagesProvider>

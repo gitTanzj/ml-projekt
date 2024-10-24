@@ -1,4 +1,3 @@
-import React from 'react'
 import { useImages } from '../context/imagesContext'
 import { useLabel } from '../context/labelContext'
 import axios from 'axios';

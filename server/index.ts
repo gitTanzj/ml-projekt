@@ -73,7 +73,13 @@ io.on('connection', (socket: Socket) => {
         if (Object.keys(clients).length === 1) {
             io.emit('start-game');
         }
-    });;
+    });
+
+    socket.on('end-game', () => {
+        console.log(`End game event received from session ID: ${sessionId}`);
+        delete clients[sessionId];
+        io.emit('players-size', Object.keys(clients).length);
+    })
 
     socket.on('disconnect', () => {
         console.log(`User with session ID ${sessionId} disconnected`);

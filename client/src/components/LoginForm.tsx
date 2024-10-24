@@ -1,4 +1,4 @@
-import React, { MouseEventHandler, useState } from 'react'
+import React, { useState } from 'react'
 import { Navigate, Link } from 'react-router-dom'
 import { doSignInWithEmailAndPassword, doSignInWithGoogle } from '../firebase/auth'
 import { useAuth } from '../context/authContext'
@@ -40,6 +40,7 @@ export const LoginForm = () => {
         doSignInWithGoogle()
         .catch((err: FirebaseError) => {
             setIsSigningIn(false)
+            setErrorMessage(firebaseErrors.get(err.code) || 'An error occurred')
         })
     }
 }

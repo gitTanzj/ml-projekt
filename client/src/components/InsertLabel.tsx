@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { useLabel } from '../context/labelContext'
 
 export const InsertLabel = () => {

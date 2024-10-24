@@ -1,5 +1,4 @@
-import React from 'react'
-import { useNavigate, NavLink, Link } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../context/authContext'
 import { doSignOut } from '../firebase/auth'
 
